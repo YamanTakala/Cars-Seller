@@ -1,0 +1,14 @@
+<!-- صورة افتراضية SVG للسيارات -->
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="300" fill="#f8f9fa"/>
+  <path d="M80 180 L80 160 Q80 150 90 150 L120 150 L140 120 Q150 110 160 110 L240 110 Q250 110 260 120 L280 150 L310 150 Q320 150 320 160 L320 180" 
+        fill="#6c757d" stroke="#495057" stroke-width="2"/>
+  <circle cx="120" cy="180" r="20" fill="#495057" stroke="#343a40" stroke-width="2"/>
+  <circle cx="280" cy="180" r="20" fill="#495057" stroke="#343a40" stroke-width="2"/>
+  <circle cx="120" cy="180" r="10" fill="#adb5bd"/>
+  <circle cx="280" cy="180" r="10" fill="#adb5bd"/>
+  <rect x="160" y="130" width="80" height="30" fill="#495057" rx="5"/>
+  <text x="200" y="220" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#6c757d">
+    لا توجد صورة
+  </text>
+</svg>

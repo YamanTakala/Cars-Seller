@@ -18,11 +18,10 @@
                     <div class="card car-card h-100">
                         <div class="position-relative">
                             <% if (car.images && car.images.length > 0) { %>
-                                <img src="<%= car.images[0].url %>" class="car-image" alt="<%= car.title %>">
+                                <img src="<%= car.images[0].url %>" class="car-image" alt="<%= car.title %>" 
+                                     onerror="this.src='/images/default-car.svg';">
                             <% } else { %>
-                                <div class="car-image bg-light d-flex align-items-center justify-content-center">
-                                    <i class="fas fa-car fa-3x text-muted"></i>
-                                </div>
+                                <img src="/images/default-car.svg" class="car-image" alt="صورة افتراضية">
                             <% } %>
                             <div class="price-badge">
                                 <%= new Intl.NumberFormat('ar-SA').format(car.price) %> <%= car.currency %>

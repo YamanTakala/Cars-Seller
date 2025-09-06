@@ -3,12 +3,19 @@ const Car = require('../models/Car');
 const User = require('../models/User');
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
 const router = express.Router();
+
+// إنشاء مجلد uploads إذا لم يكن موجوداً
+const uploadsDir = path.join(__dirname, '..', 'public', 'uploads', 'cars');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
 
 // إعدادات multer للصور
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'public/uploads/cars/')
+    cb(null, uploadsDir);
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -39,6 +46,24 @@ const requireAuth = (req, res, next) => {
   if (!req.session.user) {
     req.flash('error', 'يجب تسجيل الدخول أولاً');
     return res.redirect('/users/login');
+  }
+  next();
+};
+
+// معالج أخطاء multer
+const handleUploadError = (err, req, res, next) => {
+  if (err instanceof multer.MulterError) {
+    if (err.code === 'LIMIT_FILE_SIZE') {
+      req.flash('error', 'حجم الملف كبير جداً. الحد الأقصى 5 ميجابايت');
+    } else if (err.code === 'LIMIT_FILE_COUNT') {
+      req.flash('error', 'عدد كبير من الملفات. الحد الأقصى 10 صور');
+    } else {
+      req.flash('error', 'خطأ في رفع الملف');
+    }
+    return res.redirect('/cars/new/add');
+  } else if (err) {
+    req.flash('error', err.message);
+    return res.redirect('/cars/new/add');
   }
   next();
 };
@@ -121,7 +146,7 @@ router.get('/new/add', requireAuth, (req, res) => {
 });
 
 // إضافة سيارة جديدة
-router.post('/', requireAuth, upload.array('images', 10), async (req, res) => {
+router.post('/', requireAuth, upload.array('images', 10), handleUploadError, async (req, res) => {
   try {
     const {
       title, description, brand, model, year, mileage, price, currency,
@@ -129,17 +154,33 @@ router.post('/', requireAuth, upload.array('images', 10), async (req, res) => {
       city, district, country, features
     } = req.body;
 
+    console.log('Files uploaded:', req.files); // للتشخيص
+
     // التحقق من الصور
     if (!req.files || req.files.length === 0) {
       req.flash('error', 'يجب رفع صورة واحدة على الأقل');
       return res.redirect('/cars/new/add');
     }
 
-    // تحضير بيانات الصور
-    const images = req.files.map(file => ({
-      url: `/uploads/cars/${file.filename}`,
-      publicId: file.filename
-    }));
+    // تحضير بيانات الصور مع التحقق من وجود الملف
+    const images = req.files.map(file => {
+      const imagePath = `/uploads/cars/${file.filename}`;
+      console.log('Image path:', imagePath); // للتشخيص
+      
+      // التحقق من وجود الملف
+      const fullPath = path.join(__dirname, '..', 'public', imagePath);
+      if (!fs.existsSync(fullPath)) {
+        console.error('File not found:', fullPath);
+      }
+      
+      return {
+        url: imagePath,
+        publicId: file.filename,
+        originalName: file.originalname
+      };
+    });
+
+    console.log('Processed images:', images); // للتشخيص
 
     // تحضير المميزات
     let carFeatures = [];

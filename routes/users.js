@@ -115,6 +115,19 @@ router.post('/register', async (req, res) => {
 });
 
 // تسجيل الخروج
+router.get('/logout', (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Logout error:', err);
+      req.flash('error', 'حدث خطأ أثناء تسجيل الخروج');
+    } else {
+      req.flash('success', 'تم تسجيل الخروج بنجاح');
+    }
+    res.redirect('/');
+  });
+});
+
+// تسجيل الخروج بـ POST (للأمان)
 router.post('/logout', (req, res) => {
   req.session.destroy((err) => {
     if (err) {
