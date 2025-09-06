@@ -14,23 +14,33 @@
                     <form method="POST" action="/users/register">
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="name" class="form-label">الاسم الكامل</label>
+                                <label for="firstName" class="form-label">الاسم الأول</label>
                                 <div class="input-group">
                                     <span class="input-group-text">
                                         <i class="fas fa-user"></i>
                                     </span>
-                                    <input type="text" class="form-control" id="name" name="name" required>
+                                    <input type="text" class="form-control" id="firstName" name="firstName" required>
                                 </div>
                             </div>
                             
                             <div class="col-md-6 mb-3">
-                                <label for="email" class="form-label">البريد الإلكتروني</label>
+                                <label for="lastName" class="form-label">الاسم الأخير</label>
                                 <div class="input-group">
                                     <span class="input-group-text">
-                                        <i class="fas fa-envelope"></i>
+                                        <i class="fas fa-user"></i>
                                     </span>
-                                    <input type="email" class="form-control" id="email" name="email" required>
+                                    <input type="text" class="form-control" id="lastName" name="lastName" required>
                                 </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="email" class="form-label">البريد الإلكتروني</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-envelope"></i>
+                                </span>
+                                <input type="email" class="form-control" id="email" name="email" required>
                             </div>
                         </div>
                         

@@ -36,11 +36,12 @@ router.post('/login', async (req, res) => {
     // حفظ بيانات المستخدم في الجلسة
     req.session.user = {
       _id: user._id,
-      name: user.name,
+      firstName: user.firstName,
+      lastName: user.lastName,
       email: user.email
     };
 
-    req.flash('success', `مرحباً بك ${user.name}`);
+    req.flash('success', `مرحباً بك ${user.firstName} ${user.lastName}`);
     res.redirect('/');
   } catch (error) {
     console.error('Login error:', error);
@@ -62,7 +63,7 @@ router.get('/register', (req, res) => {
 // إنشاء حساب جديد
 router.post('/register', async (req, res) => {
   try {
-    const { name, email, password, confirmPassword, phone, city, country } = req.body;
+    const { firstName, lastName, email, password, confirmPassword, phone, city, country } = req.body;
 
     // التحقق من تطابق كلمات المرور
     if (password !== confirmPassword) {
@@ -83,7 +84,8 @@ router.post('/register', async (req, res) => {
 
     // إنشاء المستخدم الجديد
     const newUser = new User({
-      name,
+      firstName,
+      lastName,
       email,
       password: hashedPassword,
       phone,
@@ -98,7 +100,8 @@ router.post('/register', async (req, res) => {
     // تسجيل الدخول تلقائياً
     req.session.user = {
       _id: newUser._id,
-      name: newUser.name,
+      firstName: newUser.firstName,
+      lastName: newUser.lastName,
       email: newUser.email
     };
 
@@ -191,13 +194,15 @@ router.put('/profile', async (req, res) => {
   }
 
   try {
-    const { name, phone, city, country } = req.body;
+    const { firstName, lastName, phone, whatsapp, city, country } = req.body;
 
     const updatedUser = await User.findByIdAndUpdate(
       req.session.user._id,
       {
-        name,
+        firstName,
+        lastName,
         phone,
+        whatsapp,
         location: {
           city,
           country
@@ -207,7 +212,8 @@ router.put('/profile', async (req, res) => {
     );
 
     // تحديث بيانات الجلسة
-    req.session.user.name = updatedUser.name;
+    req.session.user.firstName = updatedUser.firstName;
+    req.session.user.lastName = updatedUser.lastName;
 
     req.flash('success', 'تم تحديث الملف الشخصي بنجاح');
     res.redirect('/users/profile');

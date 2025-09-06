@@ -65,6 +65,9 @@ const indexRoutes = require('./routes/index');
 const carRoutes = require('./routes/cars');
 const userRoutes = require('./routes/users');
 
+// مسار favicon
+app.get('/favicon.ico', (req, res) => res.status(204));
+
 // استخدام الـ routes
 app.use('/', indexRoutes);
 app.use('/cars', carRoutes);

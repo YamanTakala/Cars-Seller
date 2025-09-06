@@ -1,11 +1,17 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-  name: {
+  firstName: {
     type: String,
-    required: [true, 'الاسم مطلوب'],
+    required: [true, 'الاسم الأول مطلوب'],
     trim: true,
-    maxlength: [50, 'الاسم يجب أن يكون أقل من 50 حرف']
+    maxlength: [30, 'الاسم الأول يجب أن يكون أقل من 30 حرف']
+  },
+  lastName: {
+    type: String,
+    required: [true, 'الاسم الأخير مطلوب'],
+    trim: true,
+    maxlength: [30, 'الاسم الأخير يجب أن يكون أقل من 30 حرف']
   },
   email: {
     type: String,
@@ -22,6 +28,10 @@ const userSchema = new mongoose.Schema({
   phone: {
     type: String,
     required: [true, 'رقم الهاتف مطلوب'],
+    trim: true
+  },
+  whatsapp: {
+    type: String,
     trim: true
   },
   location: {
@@ -42,7 +52,7 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
-  joinDate: {
+  dateRegistered: {
     type: Date,
     default: Date.now
   }

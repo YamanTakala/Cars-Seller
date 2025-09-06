@@ -1,0 +1,110 @@
+<%- include('../partials/header') %>
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>جميع السيارات</h2>
+        <% if (user) { %>
+            <a href="/cars/new/add" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i>
+                إضافة سيارة جديدة
+            </a>
+        <% } %>
+    </div>
+    
+    <% if (cars && cars.length > 0) { %>
+        <div class="row">
+            <% cars.forEach(function(car) { %>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card car-card h-100">
+                        <div class="position-relative">
+                            <% if (car.images && car.images.length > 0) { %>
+                                <img src="<%= car.images[0].url %>" class="car-image" alt="<%= car.title %>">
+                            <% } else { %>
+                                <div class="car-image bg-light d-flex align-items-center justify-content-center">
+                                    <i class="fas fa-car fa-3x text-muted"></i>
+                                </div>
+                            <% } %>
+                            <div class="price-badge">
+                                <%= new Intl.NumberFormat('ar-SA').format(car.price) %> <%= car.currency %>
+                            </div>
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">
+                                <%= car.title %>
+                            </h5>
+                            <p class="text-muted mb-2">
+                                <i class="fas fa-car me-1"></i> <%= car.brand %> <%= car.model %>
+                            </p>
+                            <p class="text-muted mb-2">
+                                <i class="fas fa-calendar me-1"></i> <%= car.year %>
+                                <i class="fas fa-road me-1 ms-3"></i> <%= new Intl.NumberFormat('ar-SA').format(car.mileage) %> كم
+                            </p>
+                            <p class="text-muted mb-3">
+                                <i class="fas fa-map-marker-alt me-1"></i> 
+                                <%= car.location.city %>, <%= car.location.country %>
+                            </p>
+                            <div class="mt-auto">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <a href="/cars/<%= car._id %>" class="btn btn-primary">
+                                        <i class="fas fa-eye me-1"></i>
+                                        عرض التفاصيل
+                                    </a>
+                                    <small class="text-muted">
+                                        <i class="fas fa-eye me-1"></i>
+                                        <%= car.views %> مشاهدة
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+        
+        <!-- Pagination -->
+        <% if (totalPages > 1) { %>
+            <nav aria-label="الصفحات">
+                <ul class="pagination justify-content-center">
+                    <% if (currentPage > 1) { %>
+                        <li class="page-item">
+                            <a class="page-link" href="/cars?page=<%= currentPage - 1 %>">السابق</a>
+                        </li>
+                    <% } %>
+                    
+                    <% for (let i = 1; i <= totalPages; i++) { %>
+                        <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                            <a class="page-link" href="/cars?page=<%= i %>"><%= i %></a>
+                        </li>
+                    <% } %>
+                    
+                    <% if (currentPage < totalPages) { %>
+                        <li class="page-item">
+                            <a class="page-link" href="/cars?page=<%= currentPage + 1 %>">التالي</a>
+                        </li>
+                    <% } %>
+                </ul>
+            </nav>
+        <% } %>
+        
+    <% } else { %>
+        <div class="text-center py-5">
+            <i class="fas fa-car fa-5x text-muted mb-4"></i>
+            <h3 class="text-muted mb-3">لا توجد سيارات متاحة حالياً</h3>
+            <p class="text-muted mb-4">كن أول من يضيف سيارة للبيع</p>
+            <% if (user) { %>
+                <a href="/cars/new/add" class="btn btn-primary btn-lg">
+                    <i class="fas fa-plus me-2"></i>
+                    أضف سيارتك الآن
+                </a>
+            <% } else { %>
+                <a href="/users/register" class="btn btn-primary btn-lg">
+                    <i class="fas fa-user-plus me-2"></i>
+                    سجل الآن لإضافة سيارتك
+                </a>
+            <% } %>
+        </div>
+    <% } %>
+</div>
+
+<%- include('../partials/footer-content') %>
+<%- include('../partials/footer') %>
