@@ -68,6 +68,15 @@ const userRoutes = require('./routes/users');
 // مسار favicon
 app.get('/favicon.ico', (req, res) => res.status(204));
 
+// Health check endpoint لـ Render
+app.get('/health', (req, res) => {
+  res.status(200).json({ 
+    status: 'OK', 
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime()
+  });
+});
+
 // استخدام الـ routes
 app.use('/', indexRoutes);
 app.use('/cars', carRoutes);
@@ -80,15 +89,47 @@ app.use((req, res) => {
 
 // معالجة الأخطاء العامة
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).render('error', { 
-    title: 'خطأ في الخادم',
-    error: process.env.NODE_ENV === 'development' ? err : {}
-  });
+  console.error('Error occurred:', err.stack);
+  
+  // في بيئة الإنتاج، لا نعرض تفاصيل الأخطاء
+  if (process.env.NODE_ENV === 'production') {
+    res.status(500).render('error', { 
+      title: 'خطأ في الخادم',
+      error: { message: 'حدث خطأ غير متوقع' }
+    });
+  } else {
+    res.status(500).render('error', { 
+      title: 'خطأ في الخادم',
+      error: err
+    });
+  }
 });
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
+  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+});
+
+// معالجة إغلاق العملية بشكل صحيح
+process.on('SIGTERM', () => {
+  console.log('SIGTERM received, shutting down gracefully');
+  process.exit(0);
+});
+
+process.on('SIGINT', () => {
+  console.log('SIGINT received, shutting down gracefully');
+  process.exit(0);
+});
+
+// معالجة الأخطاء غير المتوقعة
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err);
+  process.exit(1);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  process.exit(1);
 });
