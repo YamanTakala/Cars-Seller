@@ -1,0 +1,94 @@
+<nav class="navbar navbar-expand-lg navbar-dark" style="background: linear-gradient(45deg, #667eea, #764ba2);">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <i class="fas fa-car"></i>
+            منصة السيارات
+        </a>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">
+                        <i class="fas fa-home"></i>
+                        الرئيسية
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/cars">
+                        <i class="fas fa-car"></i>
+                        جميع السيارات
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/search">
+                        <i class="fas fa-search"></i>
+                        البحث المتقدم
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/about">
+                        <i class="fas fa-info-circle"></i>
+                        حول الموقع
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/contact">
+                        <i class="fas fa-envelope"></i>
+                        اتصل بنا
+                    </a>
+                </li>
+            </ul>
+            
+            <ul class="navbar-nav">
+                <% if (user) { %>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user"></i>
+                            <%= user.name %>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="/users/profile">
+                                    <i class="fas fa-user-circle"></i>
+                                    الملف الشخصي
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/cars/new/add">
+                                    <i class="fas fa-plus-circle"></i>
+                                    إضافة سيارة
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form method="POST" action="/users/logout" class="d-inline">
+                                    <button type="submit" class="dropdown-item">
+                                        <i class="fas fa-sign-out-alt"></i>
+                                        تسجيل الخروج
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                <% } else { %>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/users/login">
+                            <i class="fas fa-sign-in-alt"></i>
+                            تسجيل الدخول
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/users/register">
+                            <i class="fas fa-user-plus"></i>
+                            إنشاء حساب
+                        </a>
+                    </li>
+                <% } %>
+            </ul>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,213 @@
+<%- include('partials/header') %>
+
+<div class="container py-5">
+    <!-- Header Section -->
+    <div class="text-center mb-5">
+        <h1 class="display-4">اتصل بنا</h1>
+        <p class="lead text-muted">نحن هنا لمساعدتك في أي وقت</p>
+    </div>
+    
+    <div class="row">
+        <!-- Contact Form -->
+        <div class="col-lg-8 mb-5">
+            <div class="card shadow">
+                <div class="card-body p-5">
+                    <h3 class="text-primary mb-4">
+                        <i class="fas fa-envelope me-2"></i>
+                        أرسل لنا رسالة
+                    </h3>
+                    
+                    <form>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">الاسم الكامل *</label>
+                                <input type="text" class="form-control" id="name" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">البريد الإلكتروني *</label>
+                                <input type="email" class="form-control" id="email" required>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="phone" class="form-label">رقم الهاتف</label>
+                                <input type="tel" class="form-control" id="phone">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="subject" class="form-label">الموضوع *</label>
+                                <select class="form-select" id="subject" required>
+                                    <option value="">اختر الموضوع</option>
+                                    <option value="support">دعم فني</option>
+                                    <option value="complaint">شكوى</option>
+                                    <option value="suggestion">اقتراح</option>
+                                    <option value="business">استفسار تجاري</option>
+                                    <option value="other">أخرى</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="message" class="form-label">الرسالة *</label>
+                            <textarea class="form-control" id="message" rows="6" required></textarea>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-paper-plane me-2"></i>
+                                إرسال الرسالة
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Contact Information -->
+        <div class="col-lg-4">
+            <div class="card shadow mb-4">
+                <div class="card-body p-4">
+                    <h5 class="text-primary mb-4">
+                        <i class="fas fa-info-circle me-2"></i>
+                        معلومات التواصل
+                    </h5>
+                    
+                    <div class="mb-3">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-phone text-primary me-3"></i>
+                            <div>
+                                <strong>الهاتف</strong><br>
+                                <span class="text-muted">+966 50 123 4567</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-envelope text-primary me-3"></i>
+                            <div>
+                                <strong>البريد الإلكتروني</strong><br>
+                                <span class="text-muted">info@carplatform.com</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-map-marker-alt text-primary me-3"></i>
+                            <div>
+                                <strong>العنوان</strong><br>
+                                <span class="text-muted">الرياض، المملكة العربية السعودية</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-clock text-primary me-3"></i>
+                            <div>
+                                <strong>ساعات العمل</strong><br>
+                                <span class="text-muted">الأحد - الخميس: 9:00 - 18:00</span><br>
+                                <span class="text-muted">الجمعة - السبت: 10:00 - 16:00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card shadow">
+                <div class="card-body p-4">
+                    <h5 class="text-primary mb-4">
+                        <i class="fas fa-share-alt me-2"></i>
+                        تابعنا على
+                    </h5>
+                    
+                    <div class="d-grid gap-2">
+                        <a href="#" class="btn btn-outline-primary">
+                            <i class="fab fa-facebook-f me-2"></i>
+                            Facebook
+                        </a>
+                        <a href="#" class="btn btn-outline-info">
+                            <i class="fab fa-twitter me-2"></i>
+                            Twitter
+                        </a>
+                        <a href="#" class="btn btn-outline-danger">
+                            <i class="fab fa-instagram me-2"></i>
+                            Instagram
+                        </a>
+                        <a href="#" class="btn btn-outline-dark">
+                            <i class="fab fa-linkedin me-2"></i>
+                            LinkedIn
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- FAQ Section -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <h3 class="text-center text-primary mb-5">الأسئلة الشائعة</h3>
+        </div>
+        
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h6 class="text-primary">كيف يمكنني إضافة سيارتي للبيع؟</h6>
+                    <p class="text-muted small">
+                        قم بإنشاء حساب جديد أو تسجيل الدخول، ثم اضغط على "إضافة سيارة" واملأ 
+                        جميع البيانات المطلوبة مع رفع صور واضحة للسيارة.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h6 class="text-primary">هل الخدمة مجانية؟</h6>
+                    <p class="text-muted small">
+                        نعم، إضافة الإعلانات وتصفح السيارات مجاني تماماً. نحن نربح من خلال 
+                        الإعلانات المميزة والخدمات الإضافية.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h6 class="text-primary">كيف يمكنني التواصل مع البائع؟</h6>
+                    <p class="text-muted small">
+                        يمكنك رؤية معلومات التواصل للبائع (رقم الهاتف والبريد الإلكتروني) 
+                        في صفحة تفاصيل السيارة.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h6 class="text-primary">هل تضمنون صحة المعلومات؟</h6>
+                    <p class="text-muted small">
+                        نحن نراجع الإعلانات ونحذف المضللة، لكن ننصح بفحص السيارة شخصياً 
+                        والتأكد من جميع الأوراق قبل الشراء.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // معالجة إرسال النموذج
+    document.querySelector('form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('شكراً لك! تم إرسال رسالتك بنجاح. سنتواصل معك قريباً.');
+    });
+</script>
+
+<%- include('partials/footer-content') %>
+<%- include('partials/footer') %>

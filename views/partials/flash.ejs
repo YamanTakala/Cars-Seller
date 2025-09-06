@@ -1,0 +1,43 @@
+<% if (messages && (messages.success || messages.error || messages.info || messages.warning)) { %>
+    <div class="container mt-3">
+        <% if (messages.success && messages.success.length > 0) { %>
+            <% messages.success.forEach(function(msg) { %>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle me-2"></i>
+                    <%= msg %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            <% }); %>
+        <% } %>
+        
+        <% if (messages.error && messages.error.length > 0) { %>
+            <% messages.error.forEach(function(msg) { %>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    <%= msg %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            <% }); %>
+        <% } %>
+        
+        <% if (messages.info && messages.info.length > 0) { %>
+            <% messages.info.forEach(function(msg) { %>
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    <i class="fas fa-info-circle me-2"></i>
+                    <%= msg %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            <% }); %>
+        <% } %>
+        
+        <% if (messages.warning && messages.warning.length > 0) { %>
+            <% messages.warning.forEach(function(msg) { %>
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-circle me-2"></i>
+                    <%= msg %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            <% }); %>
+        <% } %>
+    </div>
+<% } %>

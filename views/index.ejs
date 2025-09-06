@@ -1,0 +1,217 @@
+<%- include('partials/header') %>
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container text-center">
+        <h1 class="display-4 mb-4">أفضل منصة لبيع وشراء السيارات</h1>
+        <p class="lead mb-5">اكتشف مجموعة واسعة من السيارات الجديدة والمستعملة من أفضل البائعين</p>
+        <div class="row justify-content-center">
+            <div class="col-md-2 col-6 mb-3">
+                <div class="stats-card">
+                    <div class="stats-number"><%= totalCars %></div>
+                    <div>سيارة متاحة</div>
+                </div>
+            </div>
+            <div class="col-md-2 col-6 mb-3">
+                <div class="stats-card">
+                    <div class="stats-number"><%= totalBrands %></div>
+                    <div>ماركة مختلفة</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Search Form -->
+<div class="container">
+    <div class="search-form">
+        <h3 class="text-center mb-4">ابحث عن سيارتك المثالية</h3>
+        <form action="/search" method="GET">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <input type="text" class="form-control" name="q" placeholder="ابحث بالاسم أو الماركة...">
+                </div>
+                <div class="col-md-3">
+                    <select class="form-select" name="brand">
+                        <option value="">جميع الماركات</option>
+                        <option value="تويوتا">تويوتا</option>
+                        <option value="هوندا">هوندا</option>
+                        <option value="نيسان">نيسان</option>
+                        <option value="هيونداي">هيونداي</option>
+                        <option value="كيا">كيا</option>
+                        <option value="مرسيدس">مرسيدس</option>
+                        <option value="BMW">BMW</option>
+                        <option value="أودي">أودي</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <input type="number" class="form-control" name="minPrice" placeholder="أقل سعر">
+                </div>
+                <div class="col-md-2">
+                    <input type="number" class="form-control" name="maxPrice" placeholder="أعلى سعر">
+                </div>
+                <div class="col-md-1">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Featured Cars -->
+<% if (featuredCars && featuredCars.length > 0) { %>
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">السيارات المميزة</h2>
+        <div class="row">
+            <% featuredCars.forEach(function(car) { %>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card car-card">
+                        <div class="position-relative">
+                            <% if (car.images && car.images.length > 0) { %>
+                                <img src="<%= car.images[0].url %>" class="car-image" alt="<%= car.title %>">
+                            <% } else { %>
+                                <img src="/images/no-image.jpg" class="car-image" alt="صورة غير متوفرة">
+                            <% } %>
+                            <div class="price-badge">
+                                <%= new Intl.NumberFormat('ar-SA').format(car.price) %> <%= car.currency %>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <%= car.title %>
+                            </h5>
+                            <p class="text-muted">
+                                <i class="fas fa-calendar me-1"></i> <%= car.year %>
+                                <i class="fas fa-road me-1 ms-3"></i> <%= new Intl.NumberFormat('ar-SA').format(car.mileage) %> كم
+                            </p>
+                            <p class="text-muted">
+                                <i class="fas fa-map-marker-alt me-1"></i> 
+                                <%= car.location.city %>, <%= car.location.country %>
+                            </p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a href="/cars/<%= car._id %>" class="btn btn-primary">
+                                    <i class="fas fa-eye me-1"></i>
+                                    عرض التفاصيل
+                                </a>
+                                <small class="text-muted">
+                                    <i class="fas fa-eye me-1"></i>
+                                    <%= car.views %> مشاهدة
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+</section>
+<% } %>
+
+<!-- Latest Cars -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-5">
+            <h2>آخر السيارات المضافة</h2>
+            <a href="/cars" class="btn btn-outline-primary">
+                عرض الكل
+                <i class="fas fa-arrow-left ms-1"></i>
+            </a>
+        </div>
+        
+        <% if (latestCars && latestCars.length > 0) { %>
+            <div class="row">
+                <% latestCars.forEach(function(car) { %>
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="card car-card">
+                            <div class="position-relative">
+                                <% if (car.images && car.images.length > 0) { %>
+                                    <img src="<%= car.images[0].url %>" class="car-image" alt="<%= car.title %>">
+                                <% } else { %>
+                                    <img src="/images/no-image.jpg" class="car-image" alt="صورة غير متوفرة">
+                                <% } %>
+                                <div class="price-badge">
+                                    <%= new Intl.NumberFormat('ar-SA').format(car.price) %> <%= car.currency %>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h6 class="card-title">
+                                    <%= car.title.length > 30 ? car.title.substring(0, 30) + '...' : car.title %>
+                                </h6>
+                                <p class="text-muted small">
+                                    <i class="fas fa-calendar me-1"></i> <%= car.year %>
+                                    <i class="fas fa-road me-1 ms-2"></i> <%= new Intl.NumberFormat('ar-SA').format(car.mileage) %> كم
+                                </p>
+                                <p class="text-muted small">
+                                    <i class="fas fa-map-marker-alt me-1"></i> 
+                                    <%= car.location.city %>
+                                </p>
+                                <a href="/cars/<%= car._id %>" class="btn btn-sm btn-primary w-100">
+                                    عرض التفاصيل
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        <% } else { %>
+            <div class="text-center py-5">
+                <i class="fas fa-car fa-3x text-muted mb-3"></i>
+                <h4 class="text-muted">لا توجد سيارات متاحة حالياً</h4>
+                <p class="text-muted">كن أول من يضيف سيارة للبيع</p>
+                <% if (user) { %>
+                    <a href="/cars/new/add" class="btn btn-primary">
+                        <i class="fas fa-plus me-1"></i>
+                        أضف سيارتك الآن
+                    </a>
+                <% } else { %>
+                    <a href="/users/register" class="btn btn-primary">
+                        <i class="fas fa-user-plus me-1"></i>
+                        سجل الآن لإضافة سيارتك
+                    </a>
+                <% } %>
+            </div>
+        <% } %>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">لماذا تختار منصتنا؟</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="text-center">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-shield-alt fa-3x text-primary"></i>
+                    </div>
+                    <h5>أمان وموثوقية</h5>
+                    <p class="text-muted">جميع البائعين موثقون ومعتمدون لضمان تجربة آمنة</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="text-center">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-search fa-3x text-primary"></i>
+                    </div>
+                    <h5>بحث متقدم</h5>
+                    <p class="text-muted">أدوات بحث متطورة للعثور على السيارة المناسبة بسهولة</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="text-center">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-headset fa-3x text-primary"></i>
+                    </div>
+                    <h5>دعم فني 24/7</h5>
+                    <p class="text-muted">فريق دعم متاح على مدار الساعة لمساعدتك</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<%- include('partials/footer-content') %>
+<%- include('partials/footer') %>

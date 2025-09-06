@@ -1,0 +1,142 @@
+<%- include('../partials/header') %>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-user-plus fa-3x text-primary mb-3"></i>
+                        <h2>إنشاء حساب جديد</h2>
+                        <p class="text-muted">انضم إلينا وابدأ في بيع وشراء السيارات</p>
+                    </div>
+                    
+                    <form method="POST" action="/users/register">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">الاسم الكامل</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                    <input type="text" class="form-control" id="name" name="name" required>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">البريد الإلكتروني</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-envelope"></i>
+                                    </span>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="password" class="form-label">كلمة المرور</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-lock"></i>
+                                    </span>
+                                    <input type="password" class="form-control" id="password" name="password" minlength="6" required>
+                                </div>
+                                <div class="form-text">يجب أن تكون على الأقل 6 أحرف</div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="confirmPassword" class="form-label">تأكيد كلمة المرور</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-lock"></i>
+                                    </span>
+                                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="phone" class="form-label">رقم الهاتف</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-phone"></i>
+                                    </span>
+                                    <input type="tel" class="form-control" id="phone" name="phone" required>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="city" class="form-label">المدينة</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </span>
+                                    <input type="text" class="form-control" id="city" name="city" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="country" class="form-label">البلد</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-flag"></i>
+                                </span>
+                                <select class="form-select" id="country" name="country" required>
+                                    <option value="">اختر البلد</option>
+                                    <option value="السعودية">السعودية</option>
+                                    <option value="الإمارات">الإمارات</option>
+                                    <option value="الكويت">الكويت</option>
+                                    <option value="قطر">قطر</option>
+                                    <option value="البحرين">البحرين</option>
+                                    <option value="عُمان">عُمان</option>
+                                    <option value="الأردن">الأردن</option>
+                                    <option value="لبنان">لبنان</option>
+                                    <option value="مصر">مصر</option>
+                                    <option value="المغرب">المغرب</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-user-plus me-2"></i>
+                                إنشاء الحساب
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <hr class="my-4">
+                    
+                    <div class="text-center">
+                        <p class="mb-0">لديك حساب بالفعل؟</p>
+                        <a href="/users/login" class="btn btn-outline-primary">
+                            <i class="fas fa-sign-in-alt me-2"></i>
+                            تسجيل الدخول
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // التحقق من تطابق كلمات المرور
+    document.getElementById('confirmPassword').addEventListener('input', function() {
+        const password = document.getElementById('password').value;
+        const confirmPassword = this.value;
+        
+        if (password !== confirmPassword) {
+            this.setCustomValidity('كلمات المرور غير متطابقة');
+        } else {
+            this.setCustomValidity('');
+        }
+    });
+</script>
+
+<%- include('../partials/footer-content') %>
+<%- include('../partials/footer') %>

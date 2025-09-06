@@ -1,0 +1,39 @@
+<%- include('../partials/header') %>
+
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4 text-danger">خطأ في الخادم</h1>
+        <p class="lead text-muted">حدث خطأ غير متوقع، نعتذر عن الإزعاج</p>
+    </div>
+    
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <i class="fas fa-exclamation-circle fa-5x text-danger mb-4"></i>
+            <h2 class="mb-4">500 - خطأ داخلي في الخادم</h2>
+            <p class="text-muted mb-4">
+                نواجه مشكلة تقنية مؤقتة. يرجى المحاولة مرة أخرى لاحقاً.
+            </p>
+            
+            <% if (process.env.NODE_ENV === 'development' && error) { %>
+                <div class="alert alert-danger text-start mt-4">
+                    <h6>تفاصيل الخطأ (للمطورين فقط):</h6>
+                    <pre><%= error.stack %></pre>
+                </div>
+            <% } %>
+            
+            <div class="d-grid gap-2 d-md-block">
+                <a href="/" class="btn btn-primary">
+                    <i class="fas fa-home me-2"></i>
+                    العودة للرئيسية
+                </a>
+                <button onclick="location.reload()" class="btn btn-outline-primary">
+                    <i class="fas fa-redo me-2"></i>
+                    إعادة المحاولة
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer-content') %>
+<%- include('../partials/footer') %>
