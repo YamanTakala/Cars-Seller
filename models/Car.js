@@ -46,17 +46,17 @@ const carSchema = new mongoose.Schema({
   condition: {
     type: String,
     required: [true, 'حالة السيارة مطلوبة'],
-    enum: ['جديدة', 'مستعملة - ممتازة', 'مستعملة - جيدة جداً', 'مستعملة - جيدة', 'مستعملة - متوسطة']
+    enum: ['جديد', 'مستعمل']
   },
   transmission: {
     type: String,
     required: [true, 'نوع ناقل الحركة مطلوب'],
-    enum: ['أوتوماتيك', 'مانوال', 'CVT']
+    enum: ['أوتوماتيك', 'يدوي']
   },
   fuelType: {
     type: String,
     required: [true, 'نوع الوقود مطلوب'],
-    enum: ['بنزين', 'ديزل', 'هايبرد', 'كهربائي']
+    enum: ['بنزين', 'ديزل', 'هجين', 'كهربائي']
   },
   engineSize: {
     type: String,
