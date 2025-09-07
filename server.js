@@ -34,6 +34,15 @@ app.use(express.json());
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Request logging middleware
+app.use((req, res, next) => {
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
+  if (req.method === 'POST') {
+    console.log('POST Body:', req.body);
+  }
+  next();
+});
+
 // إعدادات الجلسات
 app.use(session({
   secret: process.env.SESSION_SECRET || 'car-marketplace-secret',

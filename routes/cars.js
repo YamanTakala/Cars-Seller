@@ -43,12 +43,17 @@ const upload = multer({
 
 // Middleware للتحقق من تسجيل الدخول
 const requireAuth = (req, res, next) => {
+  console.log('RequireAuth middleware - Session:', req.session);
+  console.log('RequireAuth middleware - User:', req.session?.user);
+  
   if (!req.session || !req.session.user) {
+    console.log('Authentication failed - redirecting to login');
     if (req.flash) {
       req.flash('error', 'يجب تسجيل الدخول أولاً');
     }
-    return res.redirect('/users/login');
+    return res.status(401).redirect('/users/login');
   }
+  console.log('Authentication successful');
   next();
 };
 
@@ -148,8 +153,13 @@ router.get('/new/add', requireAuth, (req, res) => {
 });
 
 // إضافة سيارة جديدة
-router.post('/', requireAuth, upload.array('images', 10), handleUploadError, async (req, res) => {
+router.post('/new', requireAuth, upload.array('images', 10), handleUploadError, async (req, res) => {
   try {
+    console.log('POST /cars/new - Starting car creation');
+    console.log('User from session:', req.session.user);
+    console.log('Request body:', req.body);
+    console.log('Files uploaded:', req.files);
+
     const {
       title, description, brand, model, year, mileage, price, currency,
       condition, transmission, fuelType, engineSize, color,
