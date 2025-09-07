@@ -2,6 +2,13 @@ const express = require('express');
 const Car = require('../models/Car');
 const router = express.Router();
 
+// صفحة التشخيص
+router.get('/debug', (req, res) => {
+  res.render('debug', {
+    title: 'اختبار الجلسات والمصادقة'
+  });
+});
+
 // الصفحة الرئيسية
 router.get('/', async (req, res) => {
   try {

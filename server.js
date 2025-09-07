@@ -47,14 +47,16 @@ app.use((req, res, next) => {
 app.use(session({
   secret: process.env.SESSION_SECRET || 'car-marketplace-secret',
   resave: false,
-  saveUninitialized: false,
+  saveUninitialized: true, // تغيير إلى true لحفظ الجلسات الجديدة
   store: MongoStore.create({
-    mongoUrl: process.env.MONGODB_URI || 'mongodb://localhost:27017/car-marketplace'
+    mongoUrl: process.env.MONGODB_URI || 'mongodb://localhost:27017/car-marketplace',
+    dbName: 'car-marketplace'
   }),
   cookie: {
     maxAge: 1000 * 60 * 60 * 24, // 24 ساعة
     secure: false, // Set to true if using HTTPS
-    httpOnly: true
+    httpOnly: true,
+    sameSite: 'lax' // إضافة sameSite
   }
 }));
 
@@ -67,11 +69,15 @@ app.set('views', path.join(__dirname, 'views'));
 
 // متغيرات عامة للقوالب
 app.use((req, res, next) => {
-  // التأكد من وجود session
+  // التأكد من وجود session وإنشاؤها إذا لم تكن موجودة
   if (!req.session) {
-    console.warn('Session not found in request');
+    console.warn('⚠️ Session not found in request - creating new session');
     req.session = {};
   }
+  
+  // تسجيل معلومات الجلسة للتشخيص
+  console.log('Session ID:', req.sessionID);
+  console.log('Session Data:', req.session);
   
   res.locals.user = req.session.user || null;
   res.locals.messages = req.flash ? req.flash() : {};

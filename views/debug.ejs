@@ -1,0 +1,75 @@
+<%- include('partials/header') %>
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3>🔍 اختبار الجلسات والمصادقة</h3>
+                </div>
+                <div class="card-body">
+                    <h5>معلومات الجلسة الحالية:</h5>
+                    
+                    <% if (user) { %>
+                        <div class="alert alert-success">
+                            <h6>✅ مسجل دخول بنجاح!</h6>
+                            <p><strong>الاسم:</strong> <%= user.firstName %> <%= user.lastName %></p>
+                            <p><strong>البريد الإلكتروني:</strong> <%= user.email %></p>
+                            <p><strong>معرف المستخدم:</strong> <%= user._id %></p>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <a href="/cars/new/add" class="btn btn-primary">
+                                <i class="fas fa-plus"></i>
+                                إضافة سيارة جديدة
+                            </a>
+                            <a href="/users/logout" class="btn btn-secondary">
+                                <i class="fas fa-sign-out-alt"></i>
+                                تسجيل الخروج
+                            </a>
+                        </div>
+                    <% } else { %>
+                        <div class="alert alert-warning">
+                            <h6>⚠️ غير مسجل دخول</h6>
+                            <p>يجب تسجيل الدخول أولاً لإضافة السيارات</p>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <a href="/users/login" class="btn btn-primary">
+                                <i class="fas fa-sign-in-alt"></i>
+                                تسجيل الدخول
+                            </a>
+                            <a href="/users/register" class="btn btn-success">
+                                <i class="fas fa-user-plus"></i>
+                                إنشاء حساب جديد
+                            </a>
+                        </div>
+                    <% } %>
+                    
+                    <hr>
+                    
+                    <h6>خطوات اختبار إضافة السيارات:</h6>
+                    <ol>
+                        <li>تأكد من تسجيل الدخول (يجب أن ترى رسالة "✅ مسجل دخول بنجاح!" أعلاه)</li>
+                        <li>اضغط على "إضافة سيارة جديدة"</li>
+                        <li>املأ النموذج بالبيانات المطلوبة</li>
+                        <li>ارفع صورة واحدة على الأقل</li>
+                        <li>اضغط "إضافة السيارة"</li>
+                    </ol>
+                    
+                    <div class="alert alert-info">
+                        <h6>ملاحظات:</h6>
+                        <ul>
+                            <li>إذا ظهرت رسالة "غير مسجل دخول" أعلاه، فالمشكلة في الجلسات</li>
+                            <li>إذا كنت مسجل دخول ولكن تحصل على خطأ 403، فالمشكلة في المصادقة</li>
+                            <li>راقب console الخادم للرسائل التشخيصية</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer-content') %>
+<%- include('partials/footer') %>

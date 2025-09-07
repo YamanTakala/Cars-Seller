@@ -41,8 +41,18 @@ router.post('/login', async (req, res) => {
       email: user.email
     };
 
-    req.flash('success', `مرحباً بك ${user.firstName} ${user.lastName}`);
-    res.redirect('/');
+    // حفظ الجلسة صراحة
+    req.session.save((err) => {
+      if (err) {
+        console.error('Session save error:', err);
+        req.flash('error', 'خطأ في حفظ الجلسة');
+        return res.redirect('/users/login');
+      }
+      
+      console.log('✅ Session saved successfully for user:', user.email);
+      req.flash('success', `مرحباً بك ${user.firstName} ${user.lastName}`);
+      res.redirect('/');
+    });
   } catch (error) {
     console.error('Login error:', error);
     req.flash('error', 'حدث خطأ أثناء تسجيل الدخول');
@@ -105,8 +115,18 @@ router.post('/register', async (req, res) => {
       email: newUser.email
     };
 
-    req.flash('success', 'تم إنشاء الحساب بنجاح، مرحباً بك!');
-    res.redirect('/');
+    // حفظ الجلسة صراحة
+    req.session.save((err) => {
+      if (err) {
+        console.error('Session save error after registration:', err);
+        req.flash('error', 'تم إنشاء الحساب لكن حدث خطأ في تسجيل الدخول');
+        return res.redirect('/users/login');
+      }
+      
+      console.log('✅ Session saved successfully for new user:', newUser.email);
+      req.flash('success', 'تم إنشاء الحساب بنجاح، مرحباً بك!');
+      res.redirect('/');
+    });
   } catch (error) {
     console.error('Registration error:', error);
     req.flash('error', 'حدث خطأ أثناء إنشاء الحساب');
