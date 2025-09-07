@@ -1,12 +1,37 @@
 const express = require('express');
 const Car = require('../models/Car');
+const User = require('../models/User');
 const router = express.Router();
 
 // صفحة التشخيص
-router.get('/debug', (req, res) => {
-  res.render('debug', {
-    title: 'اختبار الجلسات والمصادقة'
-  });
+router.get('/debug', async (req, res) => {
+  try {
+    // إحصائيات قاعدة البيانات
+    const userCount = await User.countDocuments();
+    const carCount = await Car.countDocuments();
+    const recentCars = await Car.find()
+      .populate('seller', 'firstName lastName')
+      .sort({ createdAt: -1 })
+      .limit(5);
+    
+    const stats = {
+      userCount,
+      carCount,
+      recentCars,
+      dbConnection: 'متصل',
+      sessionInfo: req.session
+    };
+    
+    res.render('debug', {
+      title: 'اختبار الجلسات والمصادقة',
+      stats
+    });
+  } catch (error) {
+    res.render('debug', {
+      title: 'اختبار الجلسات والمصادقة',
+      stats: { error: error.message }
+    });
+  }
 });
 
 // الصفحة الرئيسية

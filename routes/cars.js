@@ -245,9 +245,27 @@ router.post('/new', requireAuth, upload.array('images', 10), handleUploadError, 
       seller: req.session.user._id
     });
 
-    await newCar.save();
-    req.flash('success', 'تم إضافة السيارة بنجاح');
-    res.redirect(`/cars/${newCar._id}`);
+    console.log('🚗 Attempting to save car to database...');
+    console.log('Car object:', JSON.stringify(newCar, null, 2));
+    
+    // التحقق من validation قبل الحفظ
+    const validationError = newCar.validateSync();
+    if (validationError) {
+      console.error('❌ Validation error:', validationError);
+      req.flash('error', 'خطأ في البيانات: ' + Object.values(validationError.errors).map(e => e.message).join(', '));
+      return res.redirect('/cars/new/add');
+    }
+    
+    try {
+      const savedCar = await newCar.save();
+      console.log('✅ Car saved successfully with ID:', savedCar._id);
+      req.flash('success', 'تم إضافة السيارة بنجاح');
+      res.redirect(`/cars/${savedCar._id}`);
+    } catch (saveError) {
+      console.error('❌ Error saving car to database:', saveError);
+      req.flash('error', 'خطأ في حفظ السيارة: ' + saveError.message);
+      return res.redirect('/cars/new/add');
+    }
   } catch (error) {
     console.error('Error adding car:', error);
     req.flash('error', 'حدث خطأ أثناء إضافة السيارة');

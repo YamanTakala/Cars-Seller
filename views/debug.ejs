@@ -48,6 +48,50 @@
                     
                     <hr>
                     
+                    <% if (stats) { %>
+                        <h5>📊 إحصائيات قاعدة البيانات:</h5>
+                        <% if (stats.error) { %>
+                            <div class="alert alert-danger">
+                                ❌ خطأ في قاعدة البيانات: <%= stats.error %>
+                            </div>
+                        <% } else { %>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card bg-primary text-white">
+                                        <div class="card-body">
+                                            <h6>👥 المستخدمين</h6>
+                                            <h3><%= stats.userCount || 0 %></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card bg-success text-white">
+                                        <div class="card-body">
+                                            <h6>🚗 السيارات</h6>
+                                            <h3><%= stats.carCount || 0 %></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <% if (stats.recentCars && stats.recentCars.length > 0) { %>
+                                <h6 class="mt-3">🆕 آخر السيارات المضافة:</h6>
+                                <ul class="list-group">
+                                    <% stats.recentCars.forEach(car => { %>
+                                        <li class="list-group-item">
+                                            <strong><%= car.title %></strong> - <%= car.brand %> <%= car.model %>
+                                            <br>
+                                            <small class="text-muted">
+                                                👤 <%= car.seller?.firstName %> <%= car.seller?.lastName %> | 
+                                                📅 <%= car.createdAt.toLocaleDateString('ar') %>
+                                            </small>
+                                        </li>
+                                    <% }) %>
+                                </ul>
+                            <% } %>
+                        <% } %>
+                    <% } %>
+                    
                     <h6>خطوات اختبار إضافة السيارات:</h6>
                     <ol>
                         <li>تأكد من تسجيل الدخول (يجب أن ترى رسالة "✅ مسجل دخول بنجاح!" أعلاه)</li>
