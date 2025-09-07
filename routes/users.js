@@ -116,15 +116,18 @@ router.post('/register', async (req, res) => {
 
 // تسجيل الخروج
 router.get('/logout', (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      console.error('Logout error:', err);
-      req.flash('error', 'حدث خطأ أثناء تسجيل الخروج');
-    } else {
-      req.flash('success', 'تم تسجيل الخروج بنجاح');
-    }
+  if (req.session) {
+    req.session.destroy((err) => {
+      if (err) {
+        console.error('Logout error:', err);
+        return res.redirect('/?error=logout_failed');
+      }
+      res.clearCookie('connect.sid'); // مسح الكوكيز
+      res.redirect('/?success=logout_success');
+    });
+  } else {
     res.redirect('/');
-  });
+  }
 });
 
 // تسجيل الخروج بـ POST (للأمان)

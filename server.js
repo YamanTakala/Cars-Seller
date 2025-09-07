@@ -43,10 +43,13 @@ app.use(session({
     mongoUrl: process.env.MONGODB_URI || 'mongodb://localhost:27017/car-marketplace'
   }),
   cookie: {
-    maxAge: 1000 * 60 * 60 * 24 // 24 ساعة
+    maxAge: 1000 * 60 * 60 * 24, // 24 ساعة
+    secure: false, // Set to true if using HTTPS
+    httpOnly: true
   }
 }));
 
+// Flash messages (يجب أن يكون بعد sessions)
 app.use(flash());
 
 // إعدادات محرك القوالب
@@ -55,8 +58,15 @@ app.set('views', path.join(__dirname, 'views'));
 
 // متغيرات عامة للقوالب
 app.use((req, res, next) => {
+  // التأكد من وجود session
+  if (!req.session) {
+    console.warn('Session not found in request');
+    req.session = {};
+  }
+  
   res.locals.user = req.session.user || null;
-  res.locals.messages = req.flash();
+  res.locals.messages = req.flash ? req.flash() : {};
+  res.locals.currentPath = req.path;
   next();
 });
 
@@ -84,7 +94,10 @@ app.use('/users', userRoutes);
 
 // معالجة الأخطاء 404
 app.use((req, res) => {
-  res.status(404).render('404', { title: 'الصفحة غير موجودة' });
+  res.status(404).render('404', { 
+    title: 'الصفحة غير موجودة',
+    user: req.session ? req.session.user : null 
+  });
 });
 
 // معالجة الأخطاء العامة
@@ -95,12 +108,14 @@ app.use((err, req, res, next) => {
   if (process.env.NODE_ENV === 'production') {
     res.status(500).render('error', { 
       title: 'خطأ في الخادم',
-      error: { message: 'حدث خطأ غير متوقع' }
+      error: { message: 'حدث خطأ غير متوقع' },
+      user: req.session ? req.session.user : null
     });
   } else {
     res.status(500).render('error', { 
       title: 'خطأ في الخادم',
-      error: err
+      error: err,
+      user: req.session ? req.session.user : null
     });
   }
 });

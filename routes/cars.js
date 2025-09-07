@@ -43,8 +43,10 @@ const upload = multer({
 
 // Middleware للتحقق من تسجيل الدخول
 const requireAuth = (req, res, next) => {
-  if (!req.session.user) {
-    req.flash('error', 'يجب تسجيل الدخول أولاً');
+  if (!req.session || !req.session.user) {
+    if (req.flash) {
+      req.flash('error', 'يجب تسجيل الدخول أولاً');
+    }
     return res.redirect('/users/login');
   }
   next();

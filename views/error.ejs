@@ -14,10 +14,12 @@
                 نواجه مشكلة تقنية مؤقتة. يرجى المحاولة مرة أخرى لاحقاً.
             </p>
             
-            <% if (process.env.NODE_ENV === 'development' && error) { %>
+            <% if (typeof error !== 'undefined' && error) { %>
                 <div class="alert alert-danger text-start mt-4">
-                    <h6>تفاصيل الخطأ (للمطورين فقط):</h6>
-                    <pre><%= error.stack %></pre>
+                    <h6>تفاصيل الخطأ:</h6>
+                    <pre><%= error.message || 'خطأ غير محدد' %></pre>
+                </div>
+            <% } %>
                 </div>
             <% } %>
             
