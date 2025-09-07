@@ -4,24 +4,35 @@ const User = require('../models/User');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const cloudinaryConfig = require('../config/cloudinary');
 const router = express.Router();
 
-// إنشاء مجلد uploads إذا لم يكن موجوداً
+// إنشاء مجلد uploads للبيئة المحلية فقط
 const uploadsDir = path.join(__dirname, '..', 'public', 'uploads', 'cars');
-if (!fs.existsSync(uploadsDir)) {
+if (!cloudinaryConfig.isConfigured && !fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
 }
 
-// إعدادات multer للصور
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, uploadsDir);
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, 'car-' + uniqueSuffix + path.extname(file.originalname));
-  }
-});
+// إعدادات multer - تلقائياً يختار Cloudinary أو Local storage
+let storage;
+
+if (cloudinaryConfig.isConfigured) {
+  // استخدام Cloudinary في الإنتاج
+  storage = cloudinaryConfig.storage;
+  console.log('Using Cloudinary storage for images');
+} else {
+  // استخدام التخزين المحلي في التطوير
+  storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, uploadsDir);
+    },
+    filename: function (req, file, cb) {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+      cb(null, 'car-' + uniqueSuffix + path.extname(file.originalname));
+    }
+  });
+  console.log('Using local storage for images');
+}
 
 const upload = multer({
   storage: storage,
@@ -174,22 +185,32 @@ router.post('/new', requireAuth, upload.array('images', 10), handleUploadError, 
       return res.redirect('/cars/new/add');
     }
 
-    // تحضير بيانات الصور مع التحقق من وجود الملف
+    // تحضير بيانات الصور حسب نوع التخزين
     const images = req.files.map(file => {
-      const imagePath = `/uploads/cars/${file.filename}`;
-      console.log('Image path:', imagePath); // للتشخيص
-      
-      // التحقق من وجود الملف
-      const fullPath = path.join(__dirname, '..', 'public', imagePath);
-      if (!fs.existsSync(fullPath)) {
-        console.error('File not found:', fullPath);
+      if (cloudinaryConfig.isConfigured) {
+        // Cloudinary storage
+        return {
+          url: file.path, // Cloudinary يرجع الـ URL مباشرة
+          publicId: file.filename,
+          originalName: file.originalname
+        };
+      } else {
+        // Local storage
+        const imagePath = `/uploads/cars/${file.filename}`;
+        console.log('Image path:', imagePath); // للتشخيص
+        
+        // التحقق من وجود الملف في البيئة المحلية
+        const fullPath = path.join(__dirname, '..', 'public', imagePath);
+        if (!fs.existsSync(fullPath)) {
+          console.error('File not found:', fullPath);
+        }
+        
+        return {
+          url: imagePath,
+          publicId: file.filename,
+          originalName: file.originalname
+        };
       }
-      
-      return {
-        url: imagePath,
-        publicId: file.filename,
-        originalName: file.originalname
-      };
     });
 
     console.log('Processed images:', images); // للتشخيص

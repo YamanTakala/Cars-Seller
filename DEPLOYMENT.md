@@ -44,7 +44,14 @@ node_modules/
 MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/car-marketplace
 SESSION_SECRET=your-super-secret-session-key-for-production
 NODE_ENV=production
+
+# إعدادات Cloudinary للصور (مطلوبة!)
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key  
+CLOUDINARY_API_SECRET=your_api_secret
 ```
+
+**مهم**: إعداد Cloudinary ضروري لعمل الصور على Render. راجع ملف `CLOUDINARY_SETUP.md` للتفاصيل.
 
 ### 5. النشر
 
