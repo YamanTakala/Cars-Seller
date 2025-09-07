@@ -355,12 +355,10 @@ router.delete('/:id', requireAuth, async (req, res) => {
     }
 
     await Car.findByIdAndDelete(req.params.id);
-    req.flash('success', 'تم حذف السيارة بنجاح');
-    res.redirect('/users/profile');
+    res.status(200).json({ success: true, message: 'تم حذف السيارة بنجاح' });
   } catch (error) {
     console.error('Error deleting car:', error);
-    req.flash('error', 'حدث خطأ أثناء حذف السيارة');
-    res.redirect(`/cars/${req.params.id}`);
+    res.status(500).json({ error: 'حدث خطأ أثناء حذف السيارة' });
   }
 });
 
